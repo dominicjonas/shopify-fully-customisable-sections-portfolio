@@ -1,0 +1,38 @@
+{% schema %}
+{
+  "name": "Hero with Countdown",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Summer Sale Ends Soon"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "Countdown end date (YYYY-MM-DD)",
+      "default": "2026-01-01"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="hero" style="background-image: url('{{ section.settings.image | img_url: 'master' }}');">
+  <h1>{{ section.settings.heading }}</h1>
+  <div id="countdown"></div>
+</div>
+
+<script>
+const end = new Date('{{ section.settings.end_date }}').getTime();
+const timer = setInterval(() => {
+  const now = new Date().getTime();
+  const distance = end - now;
+  if (distance < 0) { clearInterval(timer); document.getElementById("countdown").innerHTML = "EXPIRED"; return; }
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+}, 1000);
+</script>
