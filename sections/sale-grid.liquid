@@ -3,29 +3,401 @@
   "name": "Sale Product Grid",
   "settings": [
     {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Sale Products"
+    },
+    {
       "type": "collection",
       "id": "collection",
-      "label": "Collection"
+      "label": "Collection to display"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Number of products to show",
+      "min": 4,
+      "max": 16,
+      "step": 4,
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "grid_columns_desktop",
+      "label": "Products per row (desktop)",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "grid_columns_mobile",
+      "label": "Products per row (mobile)",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show product vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sale_badge",
+      "label": "Show sale badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sale_badge_text",
+      "label": "Sale badge text",
+      "default": "SALE"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sale Product Grid"
     }
   ]
 }
 {% endschema %}
 
-<div class="grid">
-  {% for product in collections[section.settings.collection].products limit: 8 %}
-    <div class="product-card">
-      {% if product.compare_at_price > product.price %}
-        <span class="sale-badge">SALE</span>
+<section class="sale-grid">
+  <div class="sale-grid__container">
+    {% if section.settings.heading != blank %}
+      <h2 class="sale-grid__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% assign collection = collections[section.settings.collection] %}
+    
+    {% if collection == blank %}
+      <div class="sale-grid__empty">
+        <p>Please select a collection to display products.</p>
+      </div>
+    {% elsif collection.products.size == 0 %}
+      <div class="sale-grid__empty">
+        <p>No products found in this collection.</p>
+      </div>
+    {% else %}
+      <div class="sale-grid__grid" 
+           data-desktop-columns="{{ section.settings.grid_columns_desktop }}"
+           data-mobile-columns="{{ section.settings.grid_columns_mobile }}">
+        {% for product in collection.products limit: section.settings.products_to_show %}
+          <div class="product-card">
+            <a href="{{ product.url }}" class="product-card__link" aria-label="View {{ product.title }}">
+              <div class="product-card__image-container">
+                {% if section.settings.show_sale_badge and product.compare_at_price > product.price %}
+                  <span class="product-card__badge sale-badge">{{ section.settings.sale_badge_text }}</span>
+                {% endif %}
+                
+                {% if product.featured_image %}
+                  <img src="{{ product.featured_image | img_url: '400x400' }}" 
+                       alt="{{ product.featured_image.alt | default: product.title }}"
+                       class="product-card__image"
+                       loading="lazy"
+                       width="400"
+                       height="400">
+                {% else %}
+                  <div class="product-card__image-placeholder">
+                    <span>No image</span>
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="product-card__content">
+                {% if section.settings.show_vendor and product.vendor != blank %}
+                  <p class="product-card__vendor">{{ product.vendor }}</p>
+                {% endif %}
+                
+                <h3 class="product-card__title">{{ product.title }}</h3>
+                
+                <div class="product-card__price">
+                  {% if product.compare_at_price > product.price %}
+                    <span class="product-card__price--sale">{{ product.price | money }}</span>
+                    <span class="product-card__price--compare">{{ product.compare_at_price | money }}</span>
+                  {% else %}
+                    <span class="product-card__price--regular">{{ product.price | money }}</span>
+                  {% endif %}
+                </div>
+
+                {% unless product.available %}
+                  <p class="product-card__sold-out">Sold out</p>
+                {% endunless %}
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if collection.products.size > section.settings.products_to_show %}
+        <div class="sale-grid__view-more">
+          <a href="{{ collection.url }}" class="btn btn--secondary">
+            View all {{ collection.title }}
+          </a>
+        </div>
       {% endif %}
-      <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
-      <h3>{{ product.title }}</h3>
-      <p>{{ product.price | money }}</p>
-    </div>
-  {% endfor %}
-</div>
+    {% endif %}
+  </div>
+</section>
 
 <style>
-.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-.sale-badge { background: red; color: white; padding: 5px 10px; position: absolute; }
-@media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  .sale-grid {
+    padding: 4rem 0;
+  }
+
+  .sale-grid__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .sale-grid__heading {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 3rem;
+    color: #333;
+  }
+
+  .sale-grid__empty {
+    text-align: center;
+    padding: 3rem 0;
+    color: #666;
+  }
+
+  .sale-grid__grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .sale-grid__grid[data-desktop-columns="2"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sale-grid__grid[data-desktop-columns="3"] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .product-card {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .product-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .product-card__image-container {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 100%;
+    background-color: #f8f8f8;
+  }
+
+  .product-card__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .product-card:hover .product-card__image {
+    transform: scale(1.05);
+  }
+
+  .product-card__image-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    color: #999;
+    font-size: 0.875rem;
+  }
+
+  .product-card__badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 2;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .sale-badge {
+    background-color: #e74c3c;
+    color: white;
+  }
+
+  .product-card__content {
+    padding: 1.25rem;
+  }
+
+  .product-card__vendor {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-card__title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    color: #333;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .product-card__price {
+    margin-bottom: 0.5rem;
+  }
+
+  .product-card__price--sale {
+    font-weight: bold;
+    color: #e74c3c;
+    margin-right: 0.5rem;
+  }
+
+  .product-card__price--compare {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 0.875rem;
+  }
+
+  .product-card__price--regular {
+    font-weight: bold;
+    color: #333;
+  }
+
+  .product-card__sold-out {
+    font-size: 0.875rem;
+    color: #999;
+    font-style: italic;
+    margin: 0;
+  }
+
+  .sale-grid__view-more {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+
+  .btn--secondary {
+    background-color: transparent;
+    color: #333;
+    border-color: #333;
+  }
+
+  .btn--secondary:hover {
+    background-color: #333;
+    color: white;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .sale-grid {
+      padding: 2rem 0;
+    }
+
+    .sale-grid__heading {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .sale-grid__grid {
+      gap: 1.5rem;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sale-grid__grid[data-mobile-columns="1"] {
+      grid-template-columns: 1fr;
+    }
+
+    .product-card__content {
+      padding: 1rem;
+    }
+
+    .product-card__title {
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .sale-grid__container {
+      padding: 0 0.75rem;
+    }
+
+    .sale-grid__grid {
+      gap: 1rem;
+    }
+
+    .product-card__badge {
+      top: 0.5rem;
+      left: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.625rem;
+    }
+  }
 </style>

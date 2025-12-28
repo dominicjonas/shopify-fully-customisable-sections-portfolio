@@ -3,36 +3,325 @@
   "name": "Hero with Countdown",
   "settings": [
     {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
       "type": "text",
       "id": "heading",
       "label": "Heading",
       "default": "Summer Sale Ends Soon"
     },
     {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Don't miss out on amazing deals"
+    },
+    {
       "type": "text",
       "id": "end_date",
-      "label": "Countdown end date (YYYY-MM-DD)",
-      "default": "2026-01-01"
+      "label": "Countdown end date",
+      "info": "Format: YYYY-MM-DD HH:MM (24-hour format)",
+      "default": "2026-01-01 23:59"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center", 
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero with Countdown"
     }
   ]
 }
 {% endschema %}
 
-<div class="hero" style="background-image: url('{{ section.settings.image | img_url: 'master' }}');">
-  <h1>{{ section.settings.heading }}</h1>
-  <div id="countdown"></div>
-</div>
+<section class="hero-countdown{% if section.settings.background_image %} hero-countdown--has-bg{% endif %}" 
+         {% if section.settings.background_image %}
+           style="background-image: url('{{ section.settings.background_image | img_url: '1920x1080' }}');"
+         {% endif %}>
+  <div class="hero-countdown__overlay"></div>
+  <div class="hero-countdown__content text-{{ section.settings.text_alignment }}">
+    <div class="hero-countdown__text">
+      {% if section.settings.heading != blank %}
+        <h1 class="hero-countdown__heading">{{ section.settings.heading }}</h1>
+      {% endif %}
+      
+      {% if section.settings.subheading != blank %}
+        <p class="hero-countdown__subheading">{{ section.settings.subheading }}</p>
+      {% endif %}
+    </div>
+
+    <div class="hero-countdown__timer">
+      <div id="countdown-{{ section.id }}" class="countdown" aria-live="polite" role="timer">
+        <div class="countdown__item">
+          <span class="countdown__number" data-days>0</span>
+          <span class="countdown__label">Days</span>
+        </div>
+        <div class="countdown__item">
+          <span class="countdown__number" data-hours>0</span>
+          <span class="countdown__label">Hours</span>
+        </div>
+        <div class="countdown__item">
+          <span class="countdown__number" data-minutes>0</span>
+          <span class="countdown__label">Minutes</span>
+        </div>
+        <div class="countdown__item">
+          <span class="countdown__number" data-seconds>0</span>
+          <span class="countdown__label">Seconds</span>
+        </div>
+      </div>
+      
+      <div id="expired-{{ section.id }}" class="countdown-expired" style="display: none;">
+        <p>Sale has ended!</p>
+      </div>
+    </div>
+
+    {% if section.settings.button_text != blank %}
+      <div class="hero-countdown__button">
+        <a href="{{ section.settings.button_link | default: '#' }}" class="btn btn--primary">
+          {{ section.settings.button_text }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .hero-countdown {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f8f8;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .hero-countdown__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+
+  .hero-countdown--has-bg .hero-countdown__overlay {
+    display: block;
+  }
+
+  .hero-countdown__content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    color: white;
+    text-align: center;
+    max-width: 800px;
+  }
+
+  .hero-countdown--has-bg .hero-countdown__content {
+    color: white;
+  }
+
+  .hero-countdown__heading {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .hero-countdown__subheading {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+
+  .countdown {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+  }
+
+  .countdown__item {
+    text-align: center;
+    min-width: 80px;
+  }
+
+  .countdown__number {
+    display: block;
+    font-size: 3rem;
+    font-weight: bold;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .countdown__label {
+    display: block;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+  }
+
+  .countdown-expired {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff6b6b;
+  }
+
+  .hero-countdown__button {
+    margin-top: 2rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+  }
+
+  .btn--primary {
+    background-color: #007cba;
+    color: white;
+  }
+
+  .btn--primary:hover {
+    background-color: #005a87;
+    transform: translateY(-2px);
+  }
+
+  .text-left { text-align: left; }
+  .text-center { text-align: center; }
+  .text-right { text-align: right; }
+
+  @media (max-width: 768px) {
+    .hero-countdown {
+      min-height: 50vh;
+    }
+    
+    .hero-countdown__heading {
+      font-size: 2rem;
+    }
+    
+    .countdown {
+      gap: 1rem;
+    }
+    
+    .countdown__number {
+      font-size: 2rem;
+    }
+    
+    .hero-countdown__content {
+      padding: 1rem;
+    }
+  }
+</style>
 
 <script>
-const end = new Date('{{ section.settings.end_date }}').getTime();
-const timer = setInterval(() => {
-  const now = new Date().getTime();
-  const distance = end - now;
-  if (distance < 0) { clearInterval(timer); document.getElementById("countdown").innerHTML = "EXPIRED"; return; }
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-}, 1000);
+document.addEventListener('DOMContentLoaded', function() {
+  const countdownElement = document.getElementById('countdown-{{ section.id }}');
+  const expiredElement = document.getElementById('expired-{{ section.id }}');
+  
+  if (!countdownElement || !expiredElement) return;
+
+  // Parse the end date - handle both date only and date + time formats
+  const endDateStr = '{{ section.settings.end_date }}';
+  let endDate;
+  
+  try {
+    // If no time specified, default to end of day
+    if (endDateStr.length === 10) {
+      endDate = new Date(endDateStr + ' 23:59:59').getTime();
+    } else {
+      endDate = new Date(endDateStr).getTime();
+    }
+  } catch (error) {
+    console.error('Invalid date format:', endDateStr);
+    expiredElement.style.display = 'block';
+    countdownElement.style.display = 'none';
+    return;
+  }
+
+  // If date is invalid
+  if (isNaN(endDate)) {
+    console.error('Invalid date:', endDateStr);
+    expiredElement.style.display = 'block';
+    countdownElement.style.display = 'none';
+    return;
+  }
+
+  // Get countdown elements
+  const daysEl = countdownElement.querySelector('[data-days]');
+  const hoursEl = countdownElement.querySelector('[data-hours]');
+  const minutesEl = countdownElement.querySelector('[data-minutes]');
+  const secondsEl = countdownElement.querySelector('[data-seconds]');
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const timeLeft = endDate - now;
+
+    if (timeLeft < 0) {
+      clearInterval(timer);
+      countdownElement.style.display = 'none';
+      expiredElement.style.display = 'block';
+      return;
+    }
+
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    if (daysEl) daysEl.textContent = days.toString().padStart(2, '0');
+    if (hoursEl) hoursEl.textContent = hours.toString().padStart(2, '0');
+    if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2, '0');
+    if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2, '0');
+  }
+
+  // Initial update
+  updateCountdown();
+  
+  // Update every second
+  const timer = setInterval(updateCountdown, 1000);
+});
 </script>
