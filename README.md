@@ -6,7 +6,7 @@ UK-based developer specialising in custom Shopify sections.
 Live demo: https://dfj-development-store.myshopify.com/
 Code: [/sections/hero-countdown.liquid](/sections/hero-countdown.liquid)
 
-![Hero Countdown Screenshot](add-screenshot-url-or-drag-here.png)
+<img width="1117" height="544" alt="Screenshot 2025-12-28 at 15 27 49" src="https://github.com/user-attachments/assets/8575cc01-e2f1-4ca4-9967-c788e69a6c76" />
 
 ## 2. Sale Product Grid with Badges
 Live demo: [same store URL]
@@ -21,4 +21,5 @@ Code: [/sections/testimonial-carousel.liquid](/sections/testimonial-carousel.liq
 ![Testimonial Carousel Screenshot](add-screenshot-url-or-drag-here.png)
 
 Available for fixed-price Shopify customisation jobs (£150–£500). Fast turnaround, unlimited revisions.
+
 
