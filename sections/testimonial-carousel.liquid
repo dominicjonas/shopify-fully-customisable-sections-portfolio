@@ -147,7 +147,7 @@
           {% for block in section.blocks %}
             {% case block.type %}
               {% when 'testimonial' %}
-                <div class="testimonial-slide text-{{ section.settings.text_alignment }}" 
+                <div class="testimonial-slide{% if forloop.first %} active{% endif %} text-{{ section.settings.text_alignment }}" 
                      data-block-id="{{ block.id }}">
                   <div class="testimonial-slide__content">
                     {% if block.settings.rating > 0 %}
@@ -279,8 +279,10 @@
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     animation: fadeIn 0.5s ease-in-out;
+    min-height: 200px;
   }
 
+  .testimonial-slide:first-child,
   .testimonial-slide.active {
     display: block;
   }
@@ -311,16 +313,6 @@
     margin: 0 0 2rem 0;
     color: #333;
     position: relative;
-  }
-
-  .testimonial-slide__quote::before {
-    content: '"';
-    font-size: 4rem;
-    color: #e9ecef;
-    position: absolute;
-    top: -1rem;
-    left: -1rem;
-    font-family: Georgia, serif;
   }
 
   .testimonial-slide__author {
