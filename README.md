@@ -17,12 +17,16 @@ Code: /sections/sale-grid.liquid
 <img width="1161" height="747" alt="Screenshot 2025-12-28 at 16 17 15" src="https://github.com/user-attachments/assets/adfaf53d-52b1-4bee-a5e8-ede35f11ce12" />
 
 ## 3. Testimonial Carousel
-Live demo: [same store URL]
-Code: [/sections/testimonial-carousel.liquid](/sections/testimonial-carousel.liquid)
+Live demo: https://dfj-development-store.myshopify.com/
 
-![Testimonial Carousel Screenshot](add-screenshot-url-or-drag-here.png)
+Code: /sections/testimonial-carousel.liquid
+
+<img width="1130" height="423" alt="Screenshot 2025-12-28 at 16 23 31" src="https://github.com/user-attachments/assets/1cdbe0d3-3a6f-40ca-b1d5-3e9aac2529f1" />
+
+---
 
 Available for fixed-price Shopify customisation jobs (£150–£500). Fast turnaround, unlimited revisions.
+
 
 
 
