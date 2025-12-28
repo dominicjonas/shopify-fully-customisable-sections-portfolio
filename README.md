@@ -3,7 +3,7 @@
 UK-based developer specialising in custom Shopify sections.
 
 ## 1. Hero with Countdown Timer
-Live demo: [add your dev store homepage URL here after preview]
+Live demo: https://dfj-development-store.myshopify.com/
 Code: [/sections/hero-countdown.liquid](/sections/hero-countdown.liquid)
 
 ![Hero Countdown Screenshot](add-screenshot-url-or-drag-here.png)
@@ -21,3 +21,4 @@ Code: [/sections/testimonial-carousel.liquid](/sections/testimonial-carousel.liq
 ![Testimonial Carousel Screenshot](add-screenshot-url-or-drag-here.png)
 
 Available for fixed-price Shopify customisation jobs (£150–£500). Fast turnaround, unlimited revisions.
+
