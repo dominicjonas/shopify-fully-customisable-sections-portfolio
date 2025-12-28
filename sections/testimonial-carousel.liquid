@@ -1,0 +1,30 @@
+{% schema %}
+{
+  "name": "Testimonial Carousel",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "testimonial1",
+      "label": "Testimonial 1",
+      "default": "<p>Amazing service!</p><p>- Sarah</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "testimonial2",
+      "label": "Testimonial 2",
+      "default": "<p>Fast delivery, perfect code.</p><p>- John</p>"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="carousel">
+  <div class="slide">{{ section.settings.testimonial1 }}</div>
+  <div class="slide">{{ section.settings.testimonial2 }}</div>
+</div>
+
+<style>
+.carousel { position: relative; overflow: hidden; }
+.slide { animation: slide 10s infinite; }
+@keyframes slide { 0% { opacity: 1; } 45% { opacity: 1; } 50% { opacity: 0; } 95% { opacity: 0; } 100% { opacity: 1; } }
+</style>
