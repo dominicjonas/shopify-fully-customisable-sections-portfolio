@@ -7,8 +7,7 @@ Live demo: https://dfj-development-store.myshopify.com/
 
 Code: /sections/annoucnement-marquee.liquid
 
-https://github.com/user-attachments/assets/4523cd9d-a270-4f0b-b165-aaed1db1151c
-
+![ezgif-703ae1d80dac6963](https://github.com/user-attachments/assets/5396eeba-073c-4482-bff2-eb837f17e927)
 
 ## 2. Hero with Countdown Timer
 Live demo: https://dfj-development-store.myshopify.com/
@@ -34,6 +33,7 @@ Code: /sections/testimonial-carousel.liquid
 ---
 
 Available for fixed-price Shopify customisation jobs (£150–£500). Fast turnaround, unlimited revisions.
+
 
 
 
