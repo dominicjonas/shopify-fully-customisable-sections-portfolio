@@ -1,0 +1,133 @@
+{% schema %}
+{
+  "name": "Marquee Announcement",
+  "settings": [
+    {
+      "type": "text",
+      "id": "phrase1",
+      "label": "Phrase 1",
+      "default": "FINAL REDUCTIONS - EXTRA 15% OFF SALE AUTO-APPLIED AT CHECKOUT - ENDS 14.01.26 09:00GMT"
+    },
+    {
+      "type": "text",
+      "id": "phrase2",
+      "label": "Phrase 2",
+      "default": "FREE SHIPPING OVER £79.99 AND EXTENDED RETURNS"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 6,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 30,
+      "max": 120,
+      "step": 5,
+      "unit": "s",
+      "label": "Scroll Speed (higher = slower)",
+      "default": 80
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on Hover",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee Announcement"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .marquee-bar {
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    font-size: {{ section.settings.font_size }}px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+  }
+
+  .marquee-content {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scroll-left {{ section.settings.speed }}s linear infinite;
+    animation-play-state: running;
+  }
+
+  .marquee-item {
+    display: inline-block;
+    padding: 0 40px; /* padding on both sides of each phrase */
+  }
+
+  .separator {
+    color: #ffffff;
+    margin: 0 10px;
+    font-size: 16px;
+  }
+
+  {% if section.settings.pause_on_hover %}
+    .marquee-bar:hover .marquee-content {
+      animation-play-state: paused;
+    }
+  {% endif %}
+
+  @keyframes scroll-left {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  @media (max-width: 768px) {
+    .marquee-bar {
+      height: 36px;
+      line-height: 36px;
+      font-size: 12px;
+    }
+    .marquee-item {
+      padding: 0 20px;
+    }
+  }
+</style>
+
+<div class="marquee-bar" role="region" aria-label="Announcement">
+  <div class="marquee-content">
+    <span class="marquee-item">{{ section.settings.phrase1 }}</span>
+    <span class="separator">•</span>
+    <span class="marquee-item">{{ section.settings.phrase2 }}</span>
+    <span class="separator">•</span>
+    <!-- Duplicate for seamless loop -->
+    <span class="marquee-item">{{ section.settings.phrase1 }}</span>
+    <span class="separator">•</span>
+    <span class="marquee-item">{{ section.settings.phrase2 }}</span>
+    <span class="separator">•</span>
+  </div>
+</div>
