@@ -1,6 +1,6 @@
 # Shopify Liquid Portfolio
 
-UK-based developer specialising in custom Shopify sections.
+UK-based developer specialising in fully customisable Shopify sections.
 
 ## 1. Announcement Marquee
 Live demo: https://dfj-development-store.myshopify.com/
@@ -33,6 +33,7 @@ Code: /sections/testimonial-carousel.liquid
 ---
 
 Available for fixed-price Shopify customisation jobs (£150–£500). Fast turnaround, unlimited revisions.
+
 
 
 
