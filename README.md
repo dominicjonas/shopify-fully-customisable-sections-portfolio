@@ -5,7 +5,7 @@ UK-based developer specialising in fully customisable Shopify sections.
 ## 1. Announcement Marquee
 Live demo: https://dfj-development-store.myshopify.com/
 
-Code: /sections/annoucnement-marquee.liquid
+Code: /sections/announcement-marquee.liquid
 
 ![ezgif-703ae1d80dac6963](https://github.com/user-attachments/assets/5396eeba-073c-4482-bff2-eb837f17e927)
 
