@@ -8,14 +8,25 @@
   }
   .custom-header__top {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 10px 20px;
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
+    position: relative;
   }
   .custom-header__categories {
+    position: absolute;
+    left: 20px;
+  }
+  .custom-header__icons {
+    position: absolute;
+    right: 20px;
+  }
+  .custom-header__categories {
+    position: absolute;
+    left: 20px;
     list-style: none;
     display: flex;
     gap: 20px;
@@ -41,6 +52,8 @@
     text-transform: uppercase;
   }
   .custom-header__icons {
+    position: absolute;
+    right: 20px;
     display: flex;
     gap: 15px;
     list-style: none;
