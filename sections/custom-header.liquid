@@ -5,6 +5,7 @@
     color: #333;
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
   .custom-header__top {
     display: flex;
@@ -86,6 +87,12 @@
   }
   .custom-header a:hover {
     color: #333;
+  }
+  .sale-link {
+    color: red;
+  }
+  .sale-link:hover {
+    color: darkred;
   }
   .custom-header__divider {
     height: 1px;
@@ -173,7 +180,7 @@
       {% for block in section.blocks %}
         {% if block.type == 'sub_link' %}
           <li>
-            <a href="{{ block.settings.url }}">{{ block.settings.label }}</a>
+            <a href="{{ block.settings.url }}" {% if block.settings.label == 'Sale' %}class="sale-link"{% endif %}>{{ block.settings.label }}</a>
           </li>
         {% endif %}
       {% endfor %}
