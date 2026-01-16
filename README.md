@@ -16,21 +16,21 @@ Code: /sections/custom-header.liquid
 
 <img width="1361" height="121" alt="Screenshot 2026-01-16 at 12 19 00" src="https://github.com/user-attachments/assets/1e63a255-de5c-4a00-94d3-7ee4283f3340" />
 
-## 2. Hero with Countdown Timer
+## 3. Hero with Countdown Timer
 Live demo: https://dfj-development-store.myshopify.com/
 
 Code: /sections/hero-countdown.liquid
 
 <img width="1117" height="544" alt="Screenshot 2025-12-28 at 15 27 49" src="https://github.com/user-attachments/assets/8575cc01-e2f1-4ca4-9967-c788e69a6c76" />
 
-## 3. Sale Product Grid with Badges
+## 4. Sale Product Grid with Badges
 Live demo: https://dfj-development-store.myshopify.com/
 
 Code: /sections/sale-grid.liquid
 
 <img width="1161" height="747" alt="Screenshot 2025-12-28 at 16 17 15" src="https://github.com/user-attachments/assets/adfaf53d-52b1-4bee-a5e8-ede35f11ce12" />
 
-## 4. Testimonial Carousel
+## 5. Testimonial Carousel
 Live demo: https://dfj-development-store.myshopify.com/
 
 Code: /sections/testimonial-carousel.liquid
@@ -40,6 +40,7 @@ Code: /sections/testimonial-carousel.liquid
 ---
 
 Available for fixed-price Shopify customisation jobs (£150–£500). Fast turnaround, unlimited revisions.
+
 
 
 
