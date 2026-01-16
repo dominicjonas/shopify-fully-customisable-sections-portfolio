@@ -108,7 +108,7 @@
       transform: translateX(0);
     }
     100% {
-      transform: translateX(calc(-50% - 1rem));
+      transform: translateX(-100%);
     }
   }
 
@@ -130,13 +130,11 @@
 
 <div class="marquee-bar" role="region" aria-label="Announcement Marquee" aria-live="polite">
   <div class="marquee-content" aria-hidden="false">
-    <span class="marquee-item">{{ section.settings.phrase1 }}</span>
-    <span class="separator" aria-hidden="true">•</span>
-    <span class="marquee-item">{{ section.settings.phrase2 }}</span>
-    <span class="separator" aria-hidden="true">•</span>
-    <!-- Duplicate for seamless loop -->
-    <span class="marquee-item">{{ section.settings.phrase1 }}</span>
-    <span class="separator" aria-hidden="true">•</span>
-    <span class="marquee-item">{{ section.settings.phrase2 }}</span>
+    {% for i in (1..4) %}
+      <span class="marquee-item">{{ section.settings.phrase1 }}</span>
+      <span class="separator" aria-hidden="true">•</span>
+      <span class="marquee-item">{{ section.settings.phrase2 }}</span>
+      <span class="separator" aria-hidden="true">•</span>
+    {% endfor %}
   </div>
 </div>
