@@ -1,0 +1,394 @@
+{%- style -%}
+
+  :root {
+  --header-height: 80px;
+  --marquee-height: 40px;
+  }
+
+  .featured-carousel {
+    position: relative;
+    height: calc(95vh - var(--header-height) - var(--marquee-height));
+    width: 100%;
+    overflow: hidden;
+    background-color: #000;
+  }
+
+  .featured-carousel__slides {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .featured-carousel__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+  }
+
+  .featured-carousel__slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .featured-carousel__content {
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+    right: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    color: #fff;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .featured-carousel__text {
+    pointer-events: auto;
+  }
+
+  .featured-carousel__header {
+    font-size: 4rem;
+    font-weight: bold;
+    color: white;
+    margin: 0 0 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .featured-carousel__subheader {
+    font-size: 1.5rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .featured-carousel__shop-now {
+    pointer-events: auto;
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 12px 32px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    text-decoration: none;
+  }
+
+  .featured-carousel__shop-now:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  .featured-carousel__progress-container {
+    display: flex;
+    gap: 8px;
+    margin-top: 1rem;
+  }
+
+  .featured-carousel__progress-bar {
+    width: 60px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  .featured-carousel__progress-fill {
+    width: 0;
+    height: 100%;
+    background: #fff;
+    transition: width 0.1s linear;
+  }
+
+  .featured-carousel__progress-bar.active .featured-carousel__progress-fill {
+    width: 100%;
+    transition: width var(--duration, 5s) linear;
+  }
+
+  .featured-carousel__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    color: #fff;
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+    transition: background 0.3s;
+    border-radius: 50%;
+  }
+
+  .featured-carousel__arrow:hover {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .featured-carousel__arrow.left {
+    left: 2%;
+  }
+
+  .featured-carousel__arrow.right {
+    right: 2%;
+  }
+
+  @media (max-width: 768px) {
+    .featured-carousel { height: calc(95vh - var(--header-height) - var(--marquee-height));}
+    .featured-carousel__header { font-size: 2rem; }
+    .featured-carousel__subheader { font-size: 1.2rem; }
+    .featured-carousel__progress-bar { width: 40px; }
+    .featured-carousel__content {
+      flex-direction: column;
+      align-items: flex-start;
+      bottom: 8%;
+    }
+    .featured-carousel__shop-now { margin-top: 3rem; }
+  }
+
+    @media (max-width: 767px) {
+      .featured-carousel__arrow {
+        font-size: 1.5rem;
+        width: 40px;
+        height: 40px;
+      }
+  }
+{%- endstyle -%}
+
+<div class="featured-carousel" id="featured-carousel">
+  <div class="featured-carousel__slides">
+    {% for block in section.blocks %}
+      <div class="featured-carousel__slide" 
+           style="background-image: url('{{ block.settings.image | img_url: 'master' }}');"
+           data-index="{{ forloop.index0 }}">
+        <div class="featured-carousel__content">
+          <div class="featured-carousel__text">
+            <h2 class="featured-carousel__header">{{ block.settings.header }}</h2>
+            <p class="featured-carousel__subheader">{{ block.settings.subheader }}</p>
+            <div class="featured-carousel__progress-container">
+              {% for i in (1..section.blocks.size) %}
+                <div class="featured-carousel__progress-bar" data-progress-index="{{ forloop.index0 }}">
+                  <div class="featured-carousel__progress-fill"></div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          <a href="{{ block.settings.button_link }}" class="featured-carousel__shop-now">
+            {{ block.settings.button_text | default: 'Shop Now' }}
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <button class="featured-carousel__arrow left" aria-label="Previous slide">←</button>
+  <button class="featured-carousel__arrow right" aria-label="Next slide">→</button>
+</div>
+
+{% schema %}
+{
+  "name": "Full Page Carousel",
+  "tag": "section",
+  "class": "featured-carousel-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Autoplay Speed",
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background Image"
+        },
+        {
+          "type": "text",
+          "id": "header",
+          "label": "Header Text",
+          "default": "New Collection"
+        },
+        {
+          "type": "text",
+          "id": "subheader",
+          "label": "Subheader Text",
+          "default": "Discover Now"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Full Page Carousel",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "header": "Deep Red",
+            "subheader": "Bold & Intense",
+            "button_text": "Explore Red",
+            "button_link": "/collections/red-collection"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "header": "Emerald Green",
+            "subheader": "Luxury & Fresh",
+            "button_text": "Shop Green",
+            "button_link": "/collections/green-collection"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "header": "Navy Blue",
+            "subheader": "Timeless Elegance",
+            "button_text": "Discover Blue",
+            "button_link": "/collections/blue-collection"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "header": "Charcoal Grey",
+            "subheader": "Modern Minimal",
+            "button_text": "View Grey",
+            "button_link": "/collections/grey-collection"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  // Same JavaScript as before – no changes needed
+  document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.getElementById('featured-carousel');
+    if (!carousel) return;
+
+    const slides = carousel.querySelectorAll('.featured-carousel__slide');
+    const progressBars = carousel.querySelectorAll('.featured-carousel__progress-bar');
+    const leftArrow = carousel.querySelector('.featured-carousel__arrow.left');
+    const rightArrow = carousel.querySelector('.featured-carousel__arrow.right');
+
+    const autoplaySpeed = {{ section.settings.autoplay_speed | default: 5 }} * 1000;
+    let currentIndex = 0;
+    let intervalId = null;
+    let isPaused = false;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+
+      progressBars.forEach(bar => {
+        const fill = bar.querySelector('.featured-carousel__progress-fill');
+        bar.classList.remove('active');
+        fill.style.transition = 'none';
+        fill.style.width = '0%';
+      });
+
+      const currentBar = progressBars[index];
+      if (currentBar) {
+        const fill = currentBar.querySelector('.featured-carousel__progress-fill');
+        currentBar.classList.add('active');
+        void fill.offsetWidth;
+        fill.style.transition = `width ${autoplaySpeed / 1000}s linear`;
+        fill.style.width = '100%';
+      }
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % slides.length;
+      showSlide(currentIndex);
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      showSlide(currentIndex);
+    }
+
+    function startAutoplay() {
+      if (!isPaused) {
+        intervalId = setInterval(nextSlide, autoplaySpeed);
+      }
+    }
+
+    function stopAutoplay() {
+      clearInterval(intervalId);
+    }
+
+    if (slides.length > 0) {
+      showSlide(currentIndex);
+      startAutoplay();
+    }
+
+    leftArrow.addEventListener('click', () => {
+      stopAutoplay();
+      prevSlide();
+      startAutoplay();
+    });
+
+    rightArrow.addEventListener('click', () => {
+      stopAutoplay();
+      nextSlide();
+      startAutoplay();
+    });
+
+    carousel.addEventListener('mouseenter', () => {
+      isPaused = true;
+      stopAutoplay();
+    });
+
+    carousel.addEventListener('mouseleave', () => {
+      isPaused = false;
+      startAutoplay();
+    });
+
+    progressBars.forEach((bar, index) => {
+      bar.addEventListener('click', () => {
+        stopAutoplay();
+        currentIndex = index;
+        showSlide(currentIndex);
+        startAutoplay();
+      });
+    });
+  });
+</script>
