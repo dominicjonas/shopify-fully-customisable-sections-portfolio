@@ -74,6 +74,40 @@
   .sale-banner__button:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
+
+  @media screen and (max-width: 768px) {
+  .sale-banner {
+    height: 400px; /* Reduce height slightly for mobile to avoid overwhelming the screen */
+    min-height: 350px; /* Prevent it from getting too squished */
+  }
+
+  .sale-banner__text span:nth-child(1) {
+    font-size: 28px; /* Scale down text for better fit */
+  }
+
+  .sale-banner__text span:nth-child(2) {
+    font-size: 80px; /* Still bold but not dominating */
+  }
+
+  .sale-banner__button {
+    position: absolute;
+    bottom: 24px; /* Slightly less padding from bottom on mobile */
+    right: auto; /* Remove right positioning */
+    left: 50%; /* Start from center */
+    transform: translateX(-50%); /* Shift left by half its own width → perfect center */
+    padding: 12px 32px; /* Slightly smaller padding for touch-friendliness */
+    min-width: 180px; /* Ensure it's wide enough to tap easily */
+    font-size: 13px;
+  }
+
+  /* Optional: Make button full-width on very small screens */
+  @media screen and (max-width: 480px) {
+    .sale-banner__button {
+      min-width: 90%;
+      padding: 14px 20px;
+    }
+  }
+}
 {%- endstyle -%}
 
 <div class="sale-banner">
