@@ -53,7 +53,6 @@ Code: /sections/testimonial-carousel.liquid
 
 ---
 
-Available for fixed-price Shopify customisation jobs (£150–£500). Fast turnaround, unlimited revisions.
 
 
 
