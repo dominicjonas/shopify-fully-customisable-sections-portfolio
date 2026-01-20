@@ -42,7 +42,7 @@ Live demo: https://dfj-development-store.myshopify.com/
 
 Code: /sections/sale-grid.liquid
 
-<img width="1161" height="747" alt="Screenshot 2025-12-28 at 16 17 15" src="https://github.com/user-attachments/assets/adfaf53d-52b1-4bee-a5e8-ede35f11ce12" />
+<img width="1379" height="566" alt="Screenshot 2026-01-20 at 12 00 38" src="https://github.com/user-attachments/assets/3a2b5654-d32c-47ff-b681-7cd8d3415edb" />
 
 ## 7. Testimonial Carousel
 Live demo: https://dfj-development-store.myshopify.com/
@@ -54,6 +54,7 @@ Code: /sections/testimonial-carousel.liquid
 ---
 
 Available for fixed-price Shopify customisation jobs (£150–£500). Fast turnaround, unlimited revisions.
+
 
 
 
